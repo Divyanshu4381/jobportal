@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+
+*{
+  font-family: "Baloo 2", sans-serif;
+  font-optical-sizing: auto;
+} */
+/* For Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f4f4;  /* Light gray background */
+  border-radius: 10px;   /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4101af;   /* Beautiful purple color */
+  border-radius: 20%;         /* Rounded corners */
+  border: 3px solid #f4f4f4;   /* Padding around the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #4101af;   /* Darker on hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;          /* Thin scrollbar */
+  scrollbar-color: #4101af #f4f4f4; /* Thumb color and track color */
+}
+
+/* For IE and Edge */
+body {
+  -ms-overflow-style: none;  /* Hide the scrollbar in IE */
+}
