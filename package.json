@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "node backend/index.js",
+    "build":"npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+    "start": "node backend/index.js"
   },
   "keywords": [],
   "author": "Divyanshu Kushwaha",

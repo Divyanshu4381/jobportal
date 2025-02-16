@@ -12,35 +12,23 @@ import { toast } from 'sonner'
 const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth)
-    const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant == user?._id) || false
-    
+    const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) ||false
     const [isApplied, setIsApplied] = useState(isInitiallyApplied);
-
     const dispatch = useDispatch();
     const params = useParams();
     const jobId = params.id;
-    useEffect(() => {
-        const fetchSingleJobs = async () => {
-            try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
-                if (res.data.success) {
-                    dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application=>application.applicant==user?._id));
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchSingleJobs();
-    }, [jobId, dispatch, user?._id])
+    
     const applyJobHandler = async () => {
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
-            console.log(res.data)
+            
             if (res.data.success) {
+                
                 setIsApplied(true);
                 const updatedSingleJob = {...singleJob, applications: [...singleJob.applications, { applicant: user?._id}]}
+                
                 dispatch(setSingleJob(updatedSingleJob))
+                
                 toast.success(res.data.message);
 
             }
@@ -48,6 +36,21 @@ const JobDescription = () => {
             toast.success(error.response.data.message);
         }
     }
+    useEffect(()=>{
+        const fetchSingleJob = async () => {
+            try {
+                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`,{withCredentials:true});
+                if(res.data.success){
+                    dispatch(setSingleJob(res.data.job));
+                    setIsApplied(res.data.job.applications.some(application=>application.applicant === user?._id)) // Ensure the state is in sync with fetched data
+                }
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchSingleJob(); 
+    },[jobId,dispatch, user?._id]);
     return (
         <>
             <Navbar />

@@ -22,7 +22,6 @@ const CompanyCreate = () => {
                 },
                 withCredentials:true})
                 if(res?.data?.success){
-                  console.log(res.data.company)
                   dispatch(setSingleCompany(res.data.company));
                   toast.success(res.data.message);
                   const companyId=res?.data?.company?._id

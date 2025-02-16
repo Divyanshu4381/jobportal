@@ -21,9 +21,9 @@ const Job = ({job}) => {
             <Button variant="outline" className="rounded-full w-[30px] h-[30px]" size="icon"><Bookmark /></Button>
             </div>
             <div className="flex items-center gap-2 my-2">
-                <Button variant="outline" className="p-3" size="icon">
+                <Button  className="p-3" size="icon">
                     <Avatar>
-                        <AvatarImage src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1727136000&semt=ais_hybrid" />
+                        <AvatarImage src={job?.company?.logo} />
                     </Avatar>
                 </Button>
             

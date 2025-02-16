@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Edit2, MoreHorizontal } from 'lucide-react'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const CompaniesTable = () => {
+    const navigate = useNavigate();
+    const { companies, searchCompanyByText } = useSelector(store => store.company)
+    const [filterCompany, setFilterCompany] = useState(companies)
+    useEffect(() => {
+        const filteredCompany = companies.length >= 0 && companies.filter((company) => {
+            if (!searchCompanyByText) {
+                return true
+            }
+            return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+        });
+        setFilterCompany(filteredCompany)
+    }, [companies, searchCompanyByText])
     return (
         <div>
             <Table>
@@ -19,21 +33,32 @@ const CompaniesTable = () => {
                 </TableHeader>
 
                 <TableBody>
-                    <TableCell>
-                        <Avatar>
-                            <AvatarImage src="https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1727136000&semt=ais_hybrid" />
-                        </Avatar>
-                    </TableCell>
-                    <TableCell>Google</TableCell>
-                    <TableCell>27-09-2024</TableCell>
-                    <TableCell className="text-right">
-                        <Popover>
-                            <PopoverTrigger className=' cursor-pointer'><MoreHorizontal/>
-                            </PopoverTrigger>
-                            <PopoverContent className='w-16'><div className='flex justify-between items-center'><Edit2/><span className='font-bold'>Edit</span></div>
-                            </PopoverContent>
-                        </Popover>
-                    </TableCell>
+
+                    {
+                        filterCompany?.map((company) => {
+                            return (
+                                <tr>
+                                    <TableCell>
+                                        <Avatar>
+                                            <AvatarImage src={company.logo} />
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell>{company.name}</TableCell>
+                                    <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                                    <TableCell className="text-right cursor-pointer">
+                                        <Popover>
+                                            <PopoverTrigger><MoreHorizontal />
+                                            </PopoverTrigger>
+                                            <PopoverContent className='w-16' ><div onClick={() => navigate(`/admin/companies/${company._id}`)} className='flex justify-between items-center'><Edit2 /><span className='font-bold' >Edit</span></div>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </TableCell>
+                                </tr>
+
+                            )
+                        })
+                    }
+
                 </TableBody>
             </Table>
         </div>

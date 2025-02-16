@@ -14,8 +14,8 @@ export const register = async (req, res) => {
             })
         }
         const file = req.file;
-        const fileUri=getDataUri(file);
-        const cloudResponse=await cloudinary.uploader.upload(fileUri.content);
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({
@@ -30,8 +30,8 @@ export const register = async (req, res) => {
             phone,
             password: hashedPassword,
             role,
-            profile:{
-                profilePhoto:cloudResponse.secure_url,
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
             }
         })
         return res.status(201).json({
@@ -137,9 +137,9 @@ export const updateProfile = async (req, res) => {
         if (skills) user.profile.skills = skillsArray
 
         // resume comes later here .......
-        if(cloudResponse){
-            user.profile.resume=cloudResponse.secure_url;  // save the cloudinary url
-            user.profile.resumeOriginalName=file.originalname; // save the original name
+        if (cloudResponse) {
+            user.profile.resume = cloudResponse.secure_url;  // save the cloudinary url
+            user.profile.resumeOriginalName = file.originalname; // save the original name
         }
         await user.save();
 
