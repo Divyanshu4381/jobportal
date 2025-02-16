@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node backend/index.js",
+    "dev": "node Backend/index.js",
     "build":"npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
-    "start": "node backend/index.js"
+    "start": "node Backend/index.js"
   },
   "keywords": [],
   "author": "Divyanshu Kushwaha",
